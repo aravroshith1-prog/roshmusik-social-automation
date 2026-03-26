@@ -1,1 +1,15 @@
-import os \nimport google.auth \nfrom googleapiclient.discovery import build \n\nclass YouTubeAPIHandler:\n    def __init__(self):\n        self.api_service_name = 'youtube'\n        self.api_version = 'v3'\n        self.developer_key = os.getenv('YOUTUBE_API_KEY')  # Ensure you set this environment variable\n        self.youtube = build(self.api_service_name, self.api_version, developerKey=self.developer_key)\n\n    def get_latest_videos(self, channel_id, max_results=5):\n        request = self.youtube.search().list(\n            part='snippet',\n            channelId=channel_id,\n            order='date',\n            maxResults=max_results\n        )\n        response = request.execute()\n        return response['items']\n\nif __name__ == '__main__':\n    handler = YouTubeAPIHandler()\n    videos = handler.get_latest_videos('UC_x5XG1OV2P6uZZ5FSM9Ttw')  # Example channel ID\n    for video in videos:\n        print(f'Title: {video['snippet']['title']} - URL: https://www.youtube.com/watch?v={video['id']['videoId']}')
+import yt_dlp
+
+class YouTubeAPIHandler:
+    def get_latest_videos(self, channel_id, max_results=1):
+        # TODO: Implement with real YouTube Data API call
+        # Example mock:
+        return [{
+            "id": {"videoId": "dQw4w9WgXcQ"}
+        }]
+    
+    def download_video(self, video_url):
+        ydl_opts = {'outtmpl': 'downloads/%(title)s.%(ext)s'}
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(video_url, download=True)
+            return ydl.prepare_filename(info)

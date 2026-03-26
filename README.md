@@ -18,6 +18,14 @@ Automate downloading YouTube videos, create clips, add captions/branding, and po
 python main.py
 ```
 
+## Logging & Testing
+- All modules now use Python logging for better debugging.
+- You can run the basic pipeline tests with:
+  ```
+  pytest tests/
+  ```
+- Add or expand test cases in `tests/test_basic_pipeline.py`.
+
 ## TODO/NEXT
 - Implement YouTube API video listing in `src/youtube_handler.py`
 - Implement real video clipping, captioning, and branding in `src/video_editor.py`
@@ -29,5 +37,4 @@ python main.py
 
 1. Fork the repo and make your changes.
 2. Open a pull request with a clear description.
-
 ---

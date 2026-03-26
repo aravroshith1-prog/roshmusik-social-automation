@@ -1,26 +1,32 @@
-import youtube_dl
-import moviepy.editor as mp
+from src.youtube_handler import YouTubeAPIHandler
+from src.video_editor import extract_clips, add_captions, add_branding
+from src.social_poster import SocialMediaPoster
 
-# Function to fetch youtube videos
+YOUTUBE_CHANNEL_ID = "your_channel_id"
 
-def fetch_youtube_video(url):
-    # Implement video fetching logic
-    pass
+def main():
+    yt = YouTubeAPIHandler()
+    # 1. Get latest video
+    latest_vid = yt.get_latest_videos(YOUTUBE_CHANNEL_ID, 1)[0]
+    youtube_url = f"https://www.youtube.com/watch?v={{latest_vid['id']['videoId']} }\"
 
-# Function to create clips
+    # 2. Download video (replace output_dir with actual path)
+    video_path = yt.download_video(youtube_url)
+    
+    # 3. Extract clips (implement logic in video_editor module)
+    clip_paths = extract_clips(video_path, start_time=0, end_time=60)  # 1-minute clip as example
 
-def create_clips(video_path, start_time, end_time):
-    # Implement clip creation logic
-    pass
+    for clip in clip_paths:
+        # 4. Add captions
+        captioned_path = add_captions(clip, captions="Follow @roshmusik 🎵")
+        # 5. Add branding
+        branded_path = add_branding(captioned_path, branding_image_path=None)  # Add a watermark if available
 
-# Function to add captions
+        # 6. Post to socials
+        poster = SocialMediaPoster()
+        poster.post_all(branded_path, caption="Check out the latest music! #shorts #music")
+    
+    print("Automation complete!")
 
-def add_captions(video_path, captions):
-    # Implement caption adding logic
-    pass
-
-# Function to post to social media platforms
-
-def post_to_social_media(platform, content):
-    # Implement posting logic
-    pass
+if __name__ == "__main__":
+    main()

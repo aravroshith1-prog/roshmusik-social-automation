@@ -1,22 +1,28 @@
+import os
+from moviepy.editor import VideoFileClip
+
 def extract_clips(video_path, start_time, end_time):
     """
-    Extracts a clip from a video based on the start and end time.
+    Video-yil ninnu 60 seconds clip cut cheyyunnu.
     """
-    # Code to extract clip
-    pass
+    try:
+        if not os.path.exists('downloads'):
+            os.makedirs('downloads')
 
+        video = VideoFileClip(video_path)
+        clip = video.subclip(start_time, end_time)
+        
+        output_name = f"downloads/final_short.mp4"
+        clip.write_videofile(output_name, codec="libx264", audio_codec="aac")
+        
+        video.close()
+        return [output_name]
+    except Exception as e:
+        print(f"Error in Video Editor: {e}")
+        return []
 
 def add_captions(video_path, captions):
-    """
-    Adds captions to the video.
-    """
-    # Code to add captions
-    pass
-
+    return video_path
 
 def add_branding(video_path, branding_image_path):
-    """
-    Adds branding to the video using an image.
-    """
-    # Code to add branding
-    pass
+    return video_path

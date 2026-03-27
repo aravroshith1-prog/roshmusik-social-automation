@@ -8,7 +8,7 @@ def main():
     yt = YouTubeAPIHandler()
     # 1. Get latest video
     latest_vid = yt.get_latest_videos(YOUTUBE_CHANNEL_ID, 1)[0]
-    youtube_url = f"https://www.youtube.com/watch?v={{latest_vid['id']['videoId']} }\"
+    youtube_url = f"https://www.youtube.com/watch?v={latest_vid['id']['videoId']}"
 
     # 2. Download video (replace output_dir with actual path)
     video_path = yt.download_video(youtube_url)
